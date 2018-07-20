@@ -23,7 +23,7 @@ func TestThatHighlightsHaveSource(t *testing.T) {
 	allHighlightsWithEmptySource := true
 	if len(safariHighlights) > 0 {
 		for _, highlight := range safariHighlights {
-			if highlight.Source != "" {
+			if highlight.Url != "" {
 				allHighlightsWithEmptySource = false
 			}
 		}

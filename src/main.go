@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"highlightDb"
+	"orm"
 	"safari"
 	"time"
 	"twitter"
@@ -20,7 +20,7 @@ func main() {
 
 func postHighlightsToTwitter() {
 	highlights := safari.GetSafariHighlights()
-	highlightDb.InsertHighlights(highlights)
+	orm.InsertHighlights(highlights)
 
 	dbHighlights := highlightDb.GetUnpostedHighlights()
 	fmt.Printf("Number of highlights to post: %d\n", len(dbHighlights))

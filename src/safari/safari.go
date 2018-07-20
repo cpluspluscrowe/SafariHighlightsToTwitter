@@ -7,9 +7,11 @@ import (
 	"strings"
 )
 
-type safariHighlight struct {
+type Highlight struct {
 	Text   string
-	Source string
+	Url    string
+	Book   string
+	Posted int
 }
 
 func GetSafariHighlights() []string {
@@ -18,7 +20,7 @@ func GetSafariHighlights() []string {
 	return withCitations
 }
 
-func getSafariHighlights() []safariHighlight {
+func getSafariHighlights() []Highlight {
 	url := "https://www.safaribooksonline.com/u/8aaaf02c-85f9-42f8-8628-3e0c83d24fd6/"
 	resp, err := http.Get(url)
 	defer resp.Body.Close()
@@ -32,17 +34,17 @@ func getSafariHighlights() []safariHighlight {
 	return highlights
 }
 
-func addCitationToHighlights(safariHighlights []safariHighlight) []string {
+func addCitationToHighlights(safariHighlights []Highlight) []string {
 	highlights := []string{}
 	for _, highlight := range safariHighlights {
-		citation := strings.TrimSpace(strings.Replace(highlight.Source, "\n", "", 1))
+		citation := strings.TrimSpace(strings.Replace(highlight.Url, "\n", "", 1))
 		highlights = append(highlights, highlight.Text+"\n- \""+citation+"\"")
 	}
 	return highlights
 }
 
-func extractHighlights(body io.Reader) ([]safariHighlight, error) {
-	highlights := []safariHighlight{}
+func extractHighlights(body io.Reader) ([]Highlight, error) {
+	highlights := []Highlight{}
 	toPrint := false
 	z := html.NewTokenizer(body)
 	toGetSource := false
@@ -56,7 +58,7 @@ func extractHighlights(body io.Reader) ([]safariHighlight, error) {
 		case html.TextToken:
 			if toGetSource {
 				//source := string(z.Text())
-				highlights = append(highlights, safariHighlight{Text: highlightText, Source: link})
+				highlights = append(highlights, Highlight{Text: highlightText, Url: link})
 				toGetSource = false
 			}
 			if toPrint {

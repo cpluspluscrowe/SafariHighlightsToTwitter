@@ -10,7 +10,7 @@ func main() {
 }
 
 type Highlight struct {
-	Text   string `gorm:"not null;unique"`
+	Text   string
 	Url    string
 	Book   string
 	Posted int
@@ -47,7 +47,7 @@ func insert(highlight Highlight, dbName string) {
 		panic("failed to connect database")
 	}
 	defer db.Close()
-
+	highlight.Posted = 1
 	db.Create(highlight)
 }
 
