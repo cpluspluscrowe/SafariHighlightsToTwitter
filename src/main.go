@@ -36,6 +36,7 @@ func postHighlightsToTwitter() {
 }
 
 func formatHighlightForTwitter(highlight orm.Highlight) string {
-	formatted := strings.TrimSpace(strings.Replace(highlight.Url, "\n", "", 1))
+	citation := strings.TrimSpace(strings.Replace(highlight.Url, "\n", "", 1))
+	formatted := highlight.Text + "\n- \"" + citation + "\""
 	return formatted
 }
