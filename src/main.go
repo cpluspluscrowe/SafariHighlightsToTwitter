@@ -22,7 +22,6 @@ func main() {
 func postHighlightsToTwitter() {
 	highlights := safari.GetSafariHighlights()
 	for _, highlight := range highlights {
-		fmt.Println(highlight)
 		orm.Insert(highlight)
 	}
 
@@ -30,16 +29,13 @@ func postHighlightsToTwitter() {
 	unpostedHighlights := orm.GetUnpostedHighlights()
 	fmt.Printf("Number of highlights to post: %d\n", len(unpostedHighlights))
 	for _, highlight := range unpostedHighlights {
-		twitter.FakeTweet(highlight.Text)
+		formattedPost := formatHighlightForTwitter(highlight)
+		twitter.Tweet(formattedPost)
 		orm.SetAsPosted(highlight)
 	}
 }
 
-func formatHighlightForPost(safariHighlights []orm.Highlight) []string {
-	highlights := []string{}
-	for _, highlight := range safariHighlights {
-		citation := strings.TrimSpace(strings.Replace(highlight.Url, "\n", "", 1))
-		highlights = append(highlights, highlight.Text+"\n- \""+citation+"\"")
-	}
-	return highlights
+func formatHighlightForTwitter(highlight orm.Highlight) string {
+	formatted := strings.TrimSpace(strings.Replace(highlight.Url, "\n", "", 1))
+	return formatted
 }
