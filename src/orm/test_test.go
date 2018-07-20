@@ -1,4 +1,4 @@
-package main
+package orm
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-var dbTestName string = "database_test.db"
+var dbTestName string = "./orm/database_test.db"
 
 func TestORM(t *testing.T) {
 	db, err := gorm.Open("sqlite3", dbTestName)

@@ -1,13 +1,9 @@
-package main
+package orm
 
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
-
-func main() {
-
-}
 
 type Highlight struct {
 	Text   string
@@ -16,7 +12,7 @@ type Highlight struct {
 	Posted int
 }
 
-var prodDbName string = "highlightTweets.db"
+var prodDbName string = "./orm/highlightTweets.db"
 
 func Insert(highlight Highlight) {
 	insert(highlight, prodDbName)

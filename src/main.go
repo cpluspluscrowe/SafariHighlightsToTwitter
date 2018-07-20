@@ -20,12 +20,14 @@ func main() {
 
 func postHighlightsToTwitter() {
 	highlights := safari.GetSafariHighlights()
-	orm.InsertHighlights(highlights)
+	for _, highlight := range highlights {
+		fmt.Println(highlight)
+		orm.Insert(highlight)
+	}
 
-	dbHighlights := highlightDb.GetUnpostedHighlights()
-	fmt.Printf("Number of highlights to post: %d\n", len(dbHighlights))
-	for _, highlight := range dbHighlights {
+	unpostedHighlights := orm.GetUnpostedHighlights()
+	fmt.Printf("Number of highlights to post: %d\n", len(unpostedHighlights))
+	for _, highlight := range unpostedHighlights {
 		twitter.Tweet(highlight.Text)
-		highlightDb.SetHighlightAsPosted(highlight.Text)
 	}
 }
