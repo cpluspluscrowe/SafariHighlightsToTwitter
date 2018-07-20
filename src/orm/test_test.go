@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-var dbTestName string = "./orm/database_test.db"
+var dbTestName string = "./database_test.db"
 
 func TestORM(t *testing.T) {
 	db, err := gorm.Open("sqlite3", dbTestName)
@@ -93,4 +93,23 @@ func TestSetAllPostsAsPosted(t *testing.T) {
 	defer db.Close()
 	db.Delete(highlight1)
 	db.Delete(highlight2)
+}
+func TestSetHighlightAsPosted(t *testing.T) {
+	highlight1 := Highlight{Text: "text", Url: "www.google.com", Book: "book of hard knocks", Posted: 0}
+
+	insert(highlight1, dbTestName)
+	setAsPosted(highlight1, dbTestName)
+
+	highlights := getUnposted(dbTestName)
+	if len(highlights) != 0 {
+		fmt.Println(highlights)
+		t.Errorf("Found highlights that have not been posted: found %d", len(highlights))
+	}
+
+	db, err := gorm.Open("sqlite3", dbTestName)
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
+	db.Delete(highlight1)
 }

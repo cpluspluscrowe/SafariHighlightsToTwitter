@@ -26,6 +26,20 @@ func SetAllHighlightsAsPosted() {
 	setAllHighlightsAsPosted(prodDbName)
 }
 
+func SetAsPosted(highlight Highlight) {
+	setAsPosted(highlight, prodDbName)
+}
+
+func setAsPosted(highlight Highlight, dbName string) {
+	db, err := gorm.Open("sqlite3", dbName)
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
+
+	db.Where("text = ?", highlight.Text).First(&highlight).Update("Posted", 1)
+}
+
 func setAllHighlightsAsPosted(dbName string) {
 	db, err := gorm.Open("sqlite3", dbName)
 	if err != nil {
@@ -43,7 +57,6 @@ func insert(highlight Highlight, dbName string) {
 		panic("failed to connect database")
 	}
 	defer db.Close()
-	highlight.Posted = 1
 	db.Create(highlight)
 }
 
