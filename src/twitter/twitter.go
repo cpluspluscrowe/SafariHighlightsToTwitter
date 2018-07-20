@@ -23,7 +23,7 @@ func Tweet(tweetText string) {
 }
 
 func FakeTweet(tweetText string) {
-	fmt.Println(tweetText)
+	//fmt.Println(tweetText)
 }
 
 func GetTweets(highlight string) {

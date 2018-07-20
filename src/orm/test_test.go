@@ -1,7 +1,6 @@
 package orm
 
 import (
-	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"testing"
@@ -82,7 +81,6 @@ func TestSetAllPostsAsPosted(t *testing.T) {
 
 	highlights := getUnposted(dbTestName)
 	if len(highlights) != 0 {
-		fmt.Println(highlights)
 		t.Errorf("Found highlights that have not been posted: found %d", len(highlights))
 	}
 
@@ -102,7 +100,6 @@ func TestSetHighlightAsPosted(t *testing.T) {
 
 	highlights := getUnposted(dbTestName)
 	if len(highlights) != 0 {
-		fmt.Println(highlights)
 		t.Errorf("Found highlights that have not been posted: found %d", len(highlights))
 	}
 

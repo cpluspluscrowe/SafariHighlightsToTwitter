@@ -5,7 +5,6 @@ import (
 	"io"
 	"net/http"
 	"orm"
-	"strings"
 )
 
 func GetSafariHighlights() []orm.Highlight {
@@ -22,15 +21,6 @@ func getSafariHighlights() []orm.Highlight {
 	highlights, err := extractHighlights(resp.Body)
 	if err != nil {
 		panic(err)
-	}
-	return highlights
-}
-
-func addCitationToHighlights(safariHighlights []orm.Highlight) []string {
-	highlights := []string{}
-	for _, highlight := range safariHighlights {
-		citation := strings.TrimSpace(strings.Replace(highlight.Url, "\n", "", 1))
-		highlights = append(highlights, highlight.Text+"\n- \""+citation+"\"")
 	}
 	return highlights
 }
